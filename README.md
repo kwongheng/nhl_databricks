@@ -1,5 +1,8 @@
 # NHL Data Pipeline on Databricks (Lakeflow Spark Declarative Pipelines)
 
+This is a port of https://github.com/kwongheng/JDE10_final_project on Microsoft Fabric to Databricks.
+The main aim to practise attaching a git repo to Databricks and deploy the DAB bundle from repo (or from CLI if you wish), running the pipeline and comparing the difference in structure and coding style for the same datasets in Databricks. Noted that on Microsoft Fabric I was using a Free Trial account with many limitations, in Databricks a lot of the logic is reduced due to autoloader and cdc-flow.
+
 Databricks version of the NHL pipeline. It loads the public [NHL game data from Kaggle](https://www.kaggle.com/datasets/martinellis/nhl-game-data) into a new Unity Catalog catalog, **`NHL_data`**, refines it through bronze → silver → gold Delta tables, and produces team and player forecasts.
 
 Unity Catalog stores catalog names in lower case, so `NHL_data` is created and referenced as `nhl_data`.
@@ -88,21 +91,6 @@ nhl-databricks/
 - **Catalog name:** `CATALOG` in `config.py`, `catalog:` in `resources/nhl_pipeline.yml`, and `CATALOG` in `00_setup_catalog.py`.
 - **Schedule:** add a `schedule:` to `resources/nhl_job.yml`. The Kaggle data is static, so it is run on demand.
 
-## Differences from the Fabric and Airflow versions
-
-- Bronze is stored as **text** (no type guessing). All types are declared once in `config.py` and applied in silver.
-- Auto Loader tracks which files were read, replacing the file-hash manifest and schema log tables. The download notebook rewrites a file only when its SHA-256 changed, so unchanged files are not re-read.
-- Pipeline datasets cannot call actions such as `.first()` or `.collect()`. The forecast code uses a join (next season's champion) and a window sum (softmax total) instead.
-- The `LEFT SEMI` foreign-key drop reads the already-cleaned silver table, so a child row whose parent is missing when the update runs is dropped, as before.
-
-## Not yet verified
-
-I ran the transformation logic locally on test data using a small stand-in for the Databricks pipelines library (tables, types, NA handling, foreign-key drops, expectation failures, forecasts). I could not run it on Databricks. Check these on your first run:
-
-- `databricks bundle validate` accepts `resources/nhl_pipeline.yml` (the `root_path` and `libraries: glob` keys follow current docs, but bundle keys change between CLI versions).
-- `from utilities.config import ...` resolves inside the pipeline (it relies on the `transformations/` + `utilities/` layout).
-- The `AUTO CDC` flows accept `F.struct(...)` as `sequence_by` (the docs list `struct()` as allowed).
-- Streaming a CDC source view that does a stream-static join works as expected in your workspace.
 
 ## Troubleshooting
 
