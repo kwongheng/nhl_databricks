@@ -29,8 +29,8 @@ from pathlib import Path
 sys.path.append(os.path.abspath("../pipeline"))
 from utilities.config import DATASETS, KAGGLE_DATASET  # noqa: E402
 
-os.environ["KAGGLE_USERNAME"] = dbutils.secrets.get("kaggle", "username")
-os.environ["KAGGLE_KEY"] = dbutils.secrets.get("kaggle", "key")
+#os.environ["KAGGLE_USERNAME"] = dbutils.secrets.get("kaggle", "username")
+#os.environ["KAGGLE_KEY"] = dbutils.secrets.get("kaggle", "key")
 
 # COMMAND ----------
 
