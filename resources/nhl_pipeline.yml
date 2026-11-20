@@ -1,0 +1,12 @@
+resources:
+  pipelines:
+    nhl_pipeline:
+      name: nhl_etl_pipeline
+      catalog: nhl_data
+      schema: bronze            # default schema; every table in the code uses a full catalog.schema.table name
+      serverless: true
+      continuous: false
+      root_path: ../src/pipeline
+      libraries:
+        - glob:
+            include: ../src/pipeline/transformations/**

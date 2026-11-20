@@ -1,0 +1,16 @@
+# Databricks Asset Bundle: deploys the notebooks, the pipeline and the job.
+#   databricks bundle validate
+#   databricks bundle deploy -t dev
+#   databricks bundle run nhl_etl -t dev
+bundle:
+  name: nhl_data_pipeline
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://<your-workspace-url>   # e.g. https://adb-1234567890123456.7.azuredatabricks.net

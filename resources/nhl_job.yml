@@ -1,0 +1,22 @@
+resources:
+  jobs:
+    nhl_etl:
+      name: nhl_etl
+      description: Create catalog -> download Kaggle files -> run the declarative pipeline (bronze, silver, gold)
+      tasks:
+        - task_key: setup_catalog
+          notebook_task:
+            notebook_path: ../src/setup/00_setup_catalog.py
+        - task_key: land_files
+          depends_on:
+            - task_key: setup_catalog
+          notebook_task:
+            notebook_path: ../src/landing/01_download_kaggle.py
+        - task_key: run_pipeline
+          depends_on:
+            - task_key: land_files
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.nhl_pipeline.id}
+            full_refresh: false
+      # no schedule: the Kaggle dataset is static. Add one here if you want, e.g.
+      # trigger / schedule: quartz_cron_expression: "0 0 6 * * ?" and timezone_id: "Asia/Singapore"
