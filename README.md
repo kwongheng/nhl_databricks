@@ -1,7 +1,11 @@
 # NHL Data Pipeline on Databricks (Lakeflow Spark Declarative Pipelines)
 
 This is a port of https://github.com/kwongheng/JDE10_final_project on Microsoft Fabric to Databricks.
-The main aim to practise attaching a git repo to Databricks and deploy the DAB bundle from repo (or from CLI if you wish), running the pipeline and comparing the difference in structure and coding style for the same datasets in Databricks. Noted that on Microsoft Fabric I was using a Free Trial account with many limitations, in Databricks a lot of the logic is reduced due to autoloader and cdc-flow.
+The main aim Databricks learning:
+- practise attaching a git repo to Databricks and using CI/CD (pull/push/commit/etc)
+- deploy the DAB bundle from repo (or from CLI if you wish)
+- running the pipeline
+- comparing the difference in structure and coding style for the same datasets in Databricks. Noted that on Microsoft Fabric I was using a Free Trial account with many limitations, in Databricks a lot of the logic is reduced due to autoloader and cdc-flow.
 
 Databricks version of the NHL pipeline. It loads the public [NHL game data from Kaggle](https://www.kaggle.com/datasets/martinellis/nhl-game-data) into a new Unity Catalog catalog, **`NHL_data`**, refines it through bronze → silver → gold Delta tables, and produces team and player forecasts.
 
