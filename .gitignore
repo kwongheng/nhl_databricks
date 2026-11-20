@@ -1,0 +1,41 @@
+# Databricks bundle local state & temporary artifacts
+.databricks/
+bundle.state.json
+*.bundle.state.json
+
+# Build & packaging artifacts (built in CI/CD or uploaded to Volumes)
+build/
+dist/
+*.egg-info/
+*.whl
+*.jar
+target/
+
+# Python environments, caches & test artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Local data, Delta tables & secrets
+*.db
+*.sqlite
+*.parquet
+*.csv
+delta/
+.env
+.env.*
+!.env.example
+
+# IDE & OS clutter
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
